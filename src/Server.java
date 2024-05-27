@@ -1,14 +1,14 @@
 /* SERVER - may be enhanced to work for multiple clients */
 import java.net.*;
 import java.io.*;
-public class NetworkingServer {
+public class Server {
     public static void main(String [] args){
         ServerSocket server = null;
         Socket client;
 
         // Default port number we are going to use
         // All port numbers under 1024 are reserved
-        int portnumber = 1050;
+        int portnumber = 2000;
         if (args.length >= 1){
             portnumber = Integer.parseInt(args[0]);
         }
@@ -45,7 +45,25 @@ public class NetworkingServer {
                 if (msgFromClient != null && !msgFromClient.equalsIgnoreCase("bye")){
                     OutputStream clientOut = client.getOutputStream();
                     PrintWriter pw = new PrintWriter(clientOut, true);
-                    String ansMsg = "Hello, " + msgFromClient;
+                    int firstNumber = msgFromClient.toCharArray()[0] - '0';
+                    int secondNumber = msgFromClient.toCharArray()[2] - '0';
+
+                    int ans = 0;
+                    switch (msgFromClient.toCharArray()[1]){
+                        case '*' -> {
+                            ans = firstNumber * secondNumber;
+                        }
+                        case '+' -> {
+                            ans = firstNumber + secondNumber;
+                        }
+                        case '-' -> {
+                            ans = firstNumber - secondNumber;
+                        }
+                        case '/' -> {
+                            ans = firstNumber / secondNumber;
+                        }
+                    }
+                    String ansMsg = "Svaret till " + msgFromClient + " är lika med " + ans;
                     pw.println(ansMsg);
                 }
 
