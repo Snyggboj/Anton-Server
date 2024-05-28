@@ -45,9 +45,11 @@ public class Server {
                 if (msgFromClient != null && !msgFromClient.equalsIgnoreCase("bye")){
                     OutputStream clientOut = client.getOutputStream();
                     PrintWriter pw = new PrintWriter(clientOut, true);
+                    // Retrieve numbers from message
                     int firstNumber = msgFromClient.toCharArray()[0] - '0';
                     int secondNumber = msgFromClient.toCharArray()[2] - '0';
 
+                    // Check what operation to do with numbers
                     int ans = 0;
                     switch (msgFromClient.toCharArray()[1]){
                         case '*' -> {
@@ -63,6 +65,8 @@ public class Server {
                             ans = firstNumber / secondNumber;
                         }
                     }
+
+                    // Send back answer
                     String ansMsg = "Svaret till " + msgFromClient + " är lika med " + ans;
                     pw.println(ansMsg);
                 }
